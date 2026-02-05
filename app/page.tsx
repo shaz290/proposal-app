@@ -88,16 +88,50 @@ export default function ProposalApp() {
 
         {step === 2 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 className="text-2xl font-semibold mb-4">Congrats 🎉❤️</h2>
+
+            <motion.h2
+              className="text-xl font-semibold mb-4 text-purple-600"
+              animate={{
+                opacity: [0.6, 1, 0.6],
+                textShadow: [
+                  "0 0 0px rgba(147,51,234,0)",
+                  "0 0 12px rgba(147,51,234,0.8)",
+                  "0 0 0px rgba(147,51,234,0)",
+                ],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              Congrats 🎉❤️
+            </motion.h2>
             <p className="mb-6">
               <span className="font-bold text-pink-600 text-lg animate-pulse">
                 You just made me the happiest person alive! Our journey together begins now 💕
               </span>
             </p>
 
-            <h3 className="text-xl font-medium mb-4">
+            <motion.h3
+              className="text-xl font-semibold mb-4 text-purple-600"
+              animate={{
+                opacity: [0.6, 1, 0.6],
+                textShadow: [
+                  "0 0 0px rgba(147,51,234,0)",
+                  "0 0 12px rgba(147,51,234,0.8)",
+                  "0 0 0px rgba(147,51,234,0)",
+                ],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
               Where do you want to go for honeymoon? ✈️
-            </h3>
+            </motion.h3>
+
 
             <div className="grid grid-cols-2 gap-4">
               {["Rajasthan", "Goa", "Thailand", "None of the above"].map((option) => (
@@ -128,9 +162,25 @@ export default function ProposalApp() {
               </p>
             )}
 
-            <h3 className="text-xl font-medium mb-4">
+            <motion.h3
+              className="text-xl font-semibold mb-4 text-sky-500"
+              animate={{
+                opacity: [0.6, 1, 0.6],
+                textShadow: [
+                  "0 0 0px rgba(14,165,233,0)",
+                  "0 0 12px rgba(14,165,233,0.8)",
+                  "0 0 0px rgba(14,165,233,0)",
+                ],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
               How many kids do you want? 👶
-            </h3>
+            </motion.h3>
+
 
             <div className="flex justify-center gap-6">
               {["1", "2"].map((count) => (
