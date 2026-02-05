@@ -26,6 +26,9 @@ export default function ProposalApp() {
         backgroundImage: "url('/couple1.jpeg')",
       }}
     >
+      {/* subtle dark overlay so photo is visible but text readable */}
+      <div className="absolute inset-0 bg-black/20 z-0" />
+
       {/* 🌹 Full Screen Falling Flowers */}
       {[...Array(30)].map((_, i) => (
         <motion.div
@@ -38,13 +41,14 @@ export default function ProposalApp() {
             delay: Math.random() * 5,
             ease: "linear",
           }}
-          className="absolute text-2xl pointer-events-none select-none"
+          className="absolute text-2xl pointer-events-none select-none z-0"
         >
           🌹
         </motion.div>
       ))}
 
-      <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-8 max-w-xl w-full text-center relative z-10">
+      {/* Glass card (does NOT hide photo) */}
+      <div className="bg-white/40 backdrop-blur-md shadow-xl rounded-2xl p-8 max-w-xl w-full text-center relative z-10 border border-white/40">
         {step === 1 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             {/* 💖 Glowing Proposal Text */}
@@ -76,8 +80,8 @@ export default function ProposalApp() {
               </button>
 
               <button
-                onMouseEnter={moveNoButton}   // desktop
-                onTouchStart={moveNoButton}  // mobile
+                onMouseEnter={moveNoButton}
+                onTouchStart={moveNoButton}
                 className="px-6 py-3 bg-gray-400 text-white rounded-xl text-lg shadow-md transition absolute"
               >
                 No 😅
@@ -88,7 +92,6 @@ export default function ProposalApp() {
 
         {step === 2 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-
             <motion.h2
               className="text-xl font-semibold mb-4 text-purple-600"
               animate={{
@@ -107,6 +110,7 @@ export default function ProposalApp() {
             >
               Congrats 🎉❤️
             </motion.h2>
+
             <p className="mb-6">
               <span className="font-bold text-pink-600 text-lg animate-pulse">
                 You just made me the happiest person alive! Our journey together begins now 💕
@@ -131,7 +135,6 @@ export default function ProposalApp() {
             >
               Where do you want to go for honeymoon? ✈️
             </motion.h3>
-
 
             <div className="grid grid-cols-2 gap-4">
               {["Rajasthan", "Goa", "Thailand", "None of the above"].map((option) => (
@@ -180,7 +183,6 @@ export default function ProposalApp() {
             >
               How many kids do you want? 👶
             </motion.h3>
-
 
             <div className="flex justify-center gap-6">
               {["1", "2"].map((count) => (
