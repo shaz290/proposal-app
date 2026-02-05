@@ -12,7 +12,7 @@ export default function ProposalApp() {
     setStep(2);
   };
 
-  const handleNoHover = (e: any) => {
+  const moveNoButton = (e: any) => {
     const btn = e.target;
     const randomX = Math.floor(Math.random() * 200) - 100;
     const randomY = Math.floor(Math.random() * 200) - 100;
@@ -67,7 +67,7 @@ export default function ProposalApp() {
               Will you marry me? 💍
             </motion.h1>
 
-            <div className="flex gap-6 justify-center">
+            <div className="flex gap-6 justify-center relative">
               <button
                 onClick={handleYes}
                 className="px-6 py-3 bg-green-500 text-white rounded-xl text-lg shadow-md hover:scale-105 transition"
@@ -76,8 +76,9 @@ export default function ProposalApp() {
               </button>
 
               <button
-                onMouseEnter={handleNoHover}
-                className="px-6 py-3 bg-gray-400 text-white rounded-xl text-lg shadow-md transition"
+                onMouseEnter={moveNoButton}   // desktop
+                onTouchStart={moveNoButton}  // mobile
+                className="px-6 py-3 bg-gray-400 text-white rounded-xl text-lg shadow-md transition absolute"
               >
                 No 😅
               </button>
@@ -126,7 +127,6 @@ export default function ProposalApp() {
                 Amazing choice! {honeymoon} is going to be unforgettable ❤️
               </p>
             )}
-
 
             <h3 className="text-xl font-medium mb-4">
               How many kids do you want? 👶
