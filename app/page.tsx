@@ -1,15 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
+import loveCaptions from "./data/loveCaptions";
 
 export default function ProposalApp() {
   const [step, setStep] = useState<number>(1);
   const [honeymoon, setHoneymoon] = useState<string>("");
   const [kids, setKids] = useState<string>("");
 
+  const [showCaption, setShowCaption] = useState(false);
+  const [finalCaption, setFinalCaption] = useState<string>("");
+
+  useEffect(() => {
+    // pick random caption once on load
+    const randomCaption =
+      loveCaptions[Math.floor(Math.random() * loveCaptions.length)];
+    setFinalCaption(randomCaption);
+  }, []);
+
   const handleYes = () => {
     setStep(2);
+    fireFireworks(); // 🎆 fireworks for 4 seconds
+  };
+
+  const fireFireworks = () => {
+    const duration = 4000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 6,
+        startVelocity: 30,
+        spread: 360,
+        ticks: 60,
+        origin: {
+          x: Math.random(),
+          y: Math.random() * 0.6,
+        },
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   };
 
   const moveNoButton = (e: any) => {
@@ -23,6 +58,18 @@ export default function ProposalApp() {
     step === 3
       ? "min-h-[100svh] flex flex-col items-center justify-end sm:justify-center pb-8 sm:pb-0 p-4 sm:p-6 bg-cover bg-[center_top] sm:bg-center relative overflow-hidden"
       : "min-h-[100svh] flex flex-col items-center justify-start sm:justify-center pt-8 sm:pt-0 p-4 sm:p-6 bg-cover bg-[center_top] sm:bg-center relative overflow-hidden";
+
+  // ⏱️ Show caption after 5 seconds on final step
+  useEffect(() => {
+    if (step === 4) {
+      setShowCaption(false);
+      const timer = setTimeout(() => {
+        setShowCaption(true);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   return (
     <div
@@ -207,14 +254,30 @@ export default function ProposalApp() {
 
         {step === 4 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 className="text-xl sm:text-2xl font-semibold text-sky-400 animate-pulse">
-              Definitely we will have more kids than this 😄❤️
-            </h2>
-            <p className="mt-3 sm:mt-4 text-base sm:text-lg font-bold text-rose-500 animate-pulse">
-              Our life is going to be full of love, laughter, and a beautiful family 💕
-            </p>
+            {!showCaption && (
+              <>
+                <h2 className="text-xl sm:text-2xl font-semibold text-sky-400 animate-pulse">
+                  Definitely we will have more kids than this 😄❤️
+                </h2>
+                <p className="mt-3 sm:mt-4 text-base sm:text-lg font-bold text-rose-500 animate-pulse">
+                  Our life is going to be full of love, laughter, and a beautiful family 💕
+                </p>
+              </>
+            )}
+
+            {showCaption && (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mt-6 text-base sm:text-lg italic text-purple-700"
+              >
+                “{finalCaption}”
+              </motion.p>
+            )}
           </motion.div>
         )}
+
       </div>
     </div>
   );
