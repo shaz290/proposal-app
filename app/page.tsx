@@ -23,7 +23,7 @@ export default function ProposalApp() {
     <div
       className="min-h-screen flex items-center justify-center p-6 bg-cover bg-center relative overflow-hidden"
       style={{
-        backgroundImage: "url('/couple.png')",
+        backgroundImage: "url('/couple1.jpeg')",
       }}
     >
       {/* 🌹 Full Screen Falling Flowers */}
