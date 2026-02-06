@@ -12,6 +12,11 @@ export default function ProposalApp() {
 
   const [showCaption, setShowCaption] = useState(false);
   const [finalCaption, setFinalCaption] = useState<string>("");
+  const [bgImage] = useState<string>(() => {
+    const randomIndex = Math.floor(Math.random() * 6) + 1;
+    return `/couple${randomIndex}.jpeg`;
+  });
+
 
   useEffect(() => {
     // pick random caption once on load
@@ -75,7 +80,7 @@ export default function ProposalApp() {
     <div
       className={wrapperClass}
       style={{
-        backgroundImage: "url('/couple1.jpeg')",
+        backgroundImage: `url('${bgImage}')`, // ✅ random couple image here
       }}
     >
       {/* Subtle overlay (lighter on mobile so pic shows) */}
