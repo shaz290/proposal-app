@@ -16,10 +16,39 @@ export default function ProposalApp() {
   const [bgImage, setBgImage] = useState<string>("");
 
   useEffect(() => {
-    // pick random caption once on load
-    const randomCaption =
-      loveCaptions[Math.floor(Math.random() * loveCaptions.length)];
-    setFinalCaption(randomCaption);
+    // 🎯 SHUFFLE BAG LOGIC (no repeats until all captions are used)
+    const TOTAL = loveCaptions.length;
+
+    let bag: number[] = [];
+    let pointer = 0;
+
+    try {
+      bag = JSON.parse(localStorage.getItem("captionBag") || "[]");
+      pointer = Number(localStorage.getItem("captionPointer") || 0);
+    } catch {
+      bag = [];
+      pointer = 0;
+    }
+
+    // If bag is empty or fully used, reshuffle
+    if (!bag.length || pointer >= bag.length) {
+      bag = Array.from({ length: TOTAL }, (_, i) => i);
+
+      // Fisher–Yates shuffle
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+
+      pointer = 0;
+    }
+
+    const nextIndex = bag[pointer];
+
+    localStorage.setItem("captionBag", JSON.stringify(bag));
+    localStorage.setItem("captionPointer", String(pointer + 1));
+
+    setFinalCaption(loveCaptions[nextIndex]);
 
     // ✅ pick random background image but NOT same as last refresh
     const totalImages = 6;
@@ -34,6 +63,7 @@ export default function ProposalApp() {
     localStorage.setItem("lastBgIndex", String(randomIndex));
     setBgImage(`/couple${randomIndex}.jpeg?v=${Date.now()}`);
   }, []);
+
 
   const handleYes = () => {
     setStep(2);
