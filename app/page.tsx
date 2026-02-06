@@ -12,17 +12,27 @@ export default function ProposalApp() {
 
   const [showCaption, setShowCaption] = useState(false);
   const [finalCaption, setFinalCaption] = useState<string>("");
-  const [bgImage] = useState<string>(() => {
-    const randomIndex = Math.floor(Math.random() * 6) + 1;
-    return `/couple${randomIndex}.jpeg`;
-  });
 
+  const [bgImage, setBgImage] = useState<string>("");
 
   useEffect(() => {
     // pick random caption once on load
     const randomCaption =
       loveCaptions[Math.floor(Math.random() * loveCaptions.length)];
     setFinalCaption(randomCaption);
+
+    // ✅ pick random background image but NOT same as last refresh
+    const totalImages = 6;
+    const lastIndex = Number(localStorage.getItem("lastBgIndex") || 0);
+
+    let randomIndex = Math.floor(Math.random() * totalImages) + 1;
+
+    while (randomIndex === lastIndex) {
+      randomIndex = Math.floor(Math.random() * totalImages) + 1;
+    }
+
+    localStorage.setItem("lastBgIndex", String(randomIndex));
+    setBgImage(`/couple${randomIndex}.jpeg?v=${Date.now()}`);
   }, []);
 
   const handleYes = () => {
@@ -80,13 +90,13 @@ export default function ProposalApp() {
     <div
       className={wrapperClass}
       style={{
-        backgroundImage: `url('${bgImage}')`, // ✅ random couple image here
+        backgroundImage: `url('${bgImage}')`,
       }}
     >
-      {/* Subtle overlay (lighter on mobile so pic shows) */}
+      {/* Subtle overlay */}
       <div className="absolute inset-0 bg-black/10 sm:bg-black/20 z-0" />
 
-      {/* 🌹 Full Screen Falling Flowers */}
+      {/* 🌹 Falling flowers */}
       {[...Array(30)].map((_, i) => (
         <motion.div
           key={i}
@@ -118,11 +128,7 @@ export default function ProposalApp() {
                   "0 0 0px rgba(244,63,94,0)",
                 ],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               Will you marry me? 💍
             </motion.h1>
@@ -158,11 +164,7 @@ export default function ProposalApp() {
                   "0 0 0px rgba(147,51,234,0)",
                 ],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               Congrats 🎉❤️
             </motion.h2>
@@ -183,11 +185,7 @@ export default function ProposalApp() {
                   "0 0 0px rgba(147,51,234,0)",
                 ],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               Where do you want to go for honeymoon? ✈️
             </motion.h3>
@@ -231,11 +229,7 @@ export default function ProposalApp() {
                   "0 0 0px rgba(14,165,233,0)",
                 ],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               How many kids do you want? 👶
             </motion.h3>
@@ -282,7 +276,6 @@ export default function ProposalApp() {
             )}
           </motion.div>
         )}
-
       </div>
     </div>
   );
